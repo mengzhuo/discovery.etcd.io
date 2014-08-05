@@ -30,11 +30,14 @@ func setupToken(size int) (string, error) {
 		return "", errors.New("Couldn't generate a token")
 	}
 
-	if os.Getenv("DISCOVERY_ORIGIN_ADDR") != "" {
-		client := etch.NewClient(os.Getenv("DISCOVERY_ORIGIN_ADDR"))
-	} else {
-		client := etcd.NewClient(nil)
+	machines := make([]string, 0)
+
+	origin_addr := os.Getenv("DISCOVERY_ORIGIN_ADDR")
+
+	if origin_addr != "" {
+		machines = append(machines, origin_addr)
 	}
+	client := etcd.NewClient(machines)
 
 	key := path.Join("_etcd", "registry", token)
 	resp, err := client.CreateDir(key, 0)
