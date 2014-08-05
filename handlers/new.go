@@ -8,6 +8,7 @@ import (
 	"github.com/coreos/go-etcd/etcd"
 	"log"
 	"net/http"
+	"os"
 	"path"
 )
 
@@ -61,5 +62,10 @@ func NewTokenHandler(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("New cluster created", token)
 
-	fmt.Fprintf(w, "https://discovery.etcd.io/"+token)
+	var domain = os.Getenv("DISCOVERY_ROOT_URL")
+	if domain == "" {
+		domain = "https://discovery.etcd.io"
+	}
+
+	fmt.Fprintf(w, path.Join(domain, token))
 }
