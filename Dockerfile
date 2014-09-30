@@ -8,4 +8,4 @@ EXPOSE 8087
 ADD . /srv/discovery
 RUN cd /srv/discovery && ./build
 
-CMD cd /srv/discovery && ./devweb
+CMD cd /srv/discovery && ./bin/discovery.etcd.io
