@@ -10,6 +10,7 @@ import (
 	"os"
 	"path"
 	"strconv"
+	"strings"
 
 	"github.com/coreos/go-etcd/etcd"
 )
@@ -92,5 +93,5 @@ func NewTokenHandler(w http.ResponseWriter, r *http.Request) {
 		domain = "https://discovery.etcd.io"
 	}
 
-	fmt.Fprintf(w, path.Join(domain, token))
+	fmt.Fprintf(w, strings.Trim(domain, "/")+"/"+token)
 }
